@@ -4,6 +4,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.awt.image.BufferedImage;
+
 @RequestMapping(path = "api")
 public interface QrCodeRestResource {
 
@@ -11,5 +13,5 @@ public interface QrCodeRestResource {
     ResponseEntity<Void> getHealth();
 
     @GetMapping(path = "qrcode")
-    ResponseEntity<Void> getQrCode();
+    ResponseEntity<BufferedImage> getQrCode();
 }
