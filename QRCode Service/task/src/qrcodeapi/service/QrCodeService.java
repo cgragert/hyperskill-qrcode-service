@@ -1,6 +1,7 @@
 package qrcodeapi.service;
 
-import org.springframework.http.MediaType;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
@@ -8,19 +9,14 @@ import java.awt.image.BufferedImage;
 @Service
 public class QrCodeService {
 
-    public BufferedImage createQrCode(final int size, final String contents) {
+    public BufferedImage createQrCode(
+            final int size,
+            @NotNull final String contents,
+            @NotNull final ErrorCorrectionLevel errorCorrectionLevel) {
         return new QrCodeBuilder()
                 .setSize(size)
                 .setText(contents)
+                .setErrorCorrectionLevel(errorCorrectionLevel)
                 .build();
-    }
-
-    public MediaType getMediaType(final String type) {
-        return switch (type.toLowerCase()) {
-            case "jpeg" -> MediaType.IMAGE_JPEG;
-            case "png" -> MediaType.IMAGE_PNG;
-            case "gif" -> MediaType.IMAGE_GIF;
-            default -> throw new IllegalStateException();
-        };
     }
 }
