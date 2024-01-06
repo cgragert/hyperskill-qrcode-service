@@ -1,7 +1,5 @@
 package qrcodeapi.api.impl;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +16,7 @@ import java.awt.image.BufferedImage;
 public class QrCodeRestResourceBean implements QrCodeRestResource {
 
     private final QrCodeService qrCodeService;
-    private static final Logger LOG = LoggerFactory.getLogger(QrCodeRestResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(QrCodeRestResourceBean.class);
 
     @Override
     public ResponseEntity<Void> getHealth() {
@@ -26,10 +24,10 @@ public class QrCodeRestResourceBean implements QrCodeRestResource {
     }
 
     @Override
-    public ResponseEntity<BufferedImage> getQrCode(final @Min(150) @Max(350) int size, final String type) {
-        LOG.info("Size: {}, Type: {}", size, type);
+    public ResponseEntity<BufferedImage> getQrCode(final int size, final String type, final String contents) {
+        LOG.info("Size: {}, Type: {}, Content: {}", size, type, contents);
         final MediaType mediaType = qrCodeService.getMediaType(type);
-        final BufferedImage qrCode = qrCodeService.createQrCode(size);
+        final BufferedImage qrCode = qrCodeService.createQrCode(size, contents);
         return ResponseEntity.ok().contentType(mediaType).body(qrCode);
     }
 }
